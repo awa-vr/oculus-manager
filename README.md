@@ -18,7 +18,7 @@ An gui application to manage your oculus quest 2
     - [ ] bitrate
 - [ ] Misc
     - [ ] install apk
-    - [ ] install oculus killer
+    - [ ] install [oculus killer](https://github.com/LibreQuest/OculusKiller)
 - [ ] Settings
     - [ ] adb selector
     - [ ] remote adb
@@ -41,4 +41,4 @@ Install `customtkinter` and `pure-python-adb`
 1. Get location of customtkinter:
 `pip show customtkinter`
 2. Run pyinstaller:
-`pyinstaller --noconfirm --onedir --windowed --add-data "<CustomTkinter Location>/customtkinter;customtkinter/"  "<Path to Python Script>"`
+`pyinstaller --noconfirm --onedir --windowed --add-data "<CustomTkinter Location>/customtkinter;customtkinter/"  "./main.py"`
