@@ -10,6 +10,7 @@ customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-bl
 app = customtkinter.CTk()
 app.geometry("600x400")
 app.title("Oculus manager")
+app.minsize(width=350, height=350)
 
 # ---------------------------------------------------------------------------- #
 #                                   Functions                                  #
@@ -52,7 +53,7 @@ def set_theme(choice):
 #                                Create tabview                                #
 # ---------------------------------------------------------------------------- #
 tabview = customtkinter.CTkTabview(app, width=500)
-tabview.pack(padx=10, pady=10)
+tabview.pack(padx=10, pady=10, fill="both", expand=True)
 
 general = tabview.add("General")
 performance = tabview.add("Performance")
