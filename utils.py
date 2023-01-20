@@ -14,7 +14,6 @@ if not debug:
 # ---------------------------------------------------------------------------- #
 #                                     other                                    #
 # ---------------------------------------------------------------------------- #
-
 def install_apk():
     file = filedialog.askopenfilename()
     if vars.debug:
@@ -26,17 +25,20 @@ def set_brightness(value):
     if not debug:
         device.shell("settings put system screen_brightness " + str(int(value)))
 
-def get_refresh():
-    if debug:
-        return str(var_refresh) + "Hz"
-    else:
-        # return os.popen("adb shell getprop debug.oculus.refreshRate").read().strip() + "Hz"
-        var: str = device.shell("getprop debug.oculus.refreshRate")
-        return var.strip() + "Hz"
+class RefreshRate:
+    def __init__(self):
+        pass
 
-def set_refresh_rate(value):
-    if not debug:
-        device.shell("setprop debug.oculus.refreshRate " + value.replace("Hz", ""))
+    def get():
+        if debug:
+            return str(var_refresh) + "Hz"
+        else:
+            var: str = device.shell("getprop debug.oculus.refreshRate")
+            return var.strip() + "Hz"
+
+    def set(value):
+        if not debug:
+            device.shell("setprop debug.oculus.refreshRate " + value.replace("Hz", ""))
 
 def set_cpu(value):
     print(f"setprop debug.oculus.cpuLevel {value}")
@@ -50,7 +52,6 @@ def set_gpu(value):
 
 tex_w = 1440
 tex_h = 1584
-test = "test"
 def tex_width(eh):
     switch={
         "default": 1440,
@@ -86,11 +87,11 @@ def set_texture(choice):
     tex_h = tex_height(choice)
     print(f"setprop debug.oculus.textureWidth {tex_w}")
     print(f"setprop debug.oculus.textureHeight {tex_h}")
-    print(f"settings put system font_scale 0.85 && settings put system font_scale 1.0")
+    # print(f"settings put system font_scale 0.85 && settings put system font_scale 1.0")
     if not debug:
         device.shell(f"setprop debug.oculus.textureWidth {tex_w}")
         device.shell(f"setprop debug.oculus.textureHeight {tex_h}")
-        device.shell(f"settings put system font_scale 0.85 && settings put system font_scale 1.0")
+        # device.shell(f"settings put system font_scale 0.85 && settings put system font_scale 1.0")
 
 def switch_ffr(eh):
     switch={
@@ -101,12 +102,15 @@ def switch_ffr(eh):
         "max": 4
     }
     return switch.get(eh)
+class FFR:
+    def __init__(self):
+        pass
 
-def set_ffr(choice):
-    eh = switch_ffr(choice)
-    print(f"debug.oculus.foveation.level {eh}")
-    if not debug:
-        device.shell(f"debug.oculus.foveation.level {eh}")
+    def set(choice):
+        eh = switch_ffr(choice)
+        print(f"debug.oculus.foveation.level {eh}")
+        if not debug:
+            device.shell(f"debug.oculus.foveation.level {eh}")
 
 # ---------------------------------------------------------------------------- #
 #                                     Video                                    #
@@ -117,34 +121,37 @@ def set_cs(value):
 # ---------------------------------------------------------------------------- #
 #                                    Battery                                   #
 # ---------------------------------------------------------------------------- #
-def get_l_bat():
-    if not debug:
-        var: str = device.shell("dumpsys OVRRemoteService | grep Battery")
-        var = var.strip().split(",")
-        lbat = var[8].split(":")[1].strip()[:-1]
-        return lbat
-    else:
-        return str(var_lcon_bat)
+class Battery:
+    def __init__(self):
+        pass
 
-def get_r_bat():
-    if not debug:
-        # var = os.popen("adb shell \"dumpsys OVRRemoteService | grep Battery\"").read().strip().split(",")
-        var: str = device.shell("dumpsys OVRRemoteService | grep Battery")
-        var = var.strip().split(",")
-        rbat = var[3].split(":")[1].strip()[:-1]
-        return rbat
-    else:
-        return str(var_rcon_bat)
+    def get_l():
+        if not debug:
+            var: str = device.shell("dumpsys OVRRemoteService | grep Battery")
+            var = var.strip().split(",")
+            lbat = var[8].split(":")[1].strip()[:-1]
+            return lbat
+        else:
+            return str(var_lcon_bat)
 
-def get_hmd_bat():
-    if not debug:
-        var = os.popen("adb shell \"dumpsys CompanionService | grep Battery\"").read().strip()
-        # var: str = device.shell("dumpsys OVRRemoteService | grep Battery")
-        var = var.strip().split(":")[1].strip()
-        hmd_bat = var
-        return hmd_bat
-    else:
-        return str(var_hmd_bat)
+    def get_r():
+        if not debug:
+            var: str = device.shell("dumpsys OVRRemoteService | grep Battery")
+            var = var.strip().split(",")
+            rbat = var[3].split(":")[1].strip()[:-1]
+            return rbat
+        else:
+            return str(var_rcon_bat)
+
+    def get_hmd():
+        if not debug:
+            var = os.popen("adb shell \"dumpsys CompanionService | grep Battery\"").read().strip() # TODO: Change to use python adb
+            # var: str = device.shell("dumpsys OVRRemoteService | grep Battery")
+            var = var.strip().split(":")[1].strip()
+            hmd_bat = var
+            return hmd_bat
+        else:
+            return str(var_hmd_bat)
 
 # ---------------------------------------------------------------------------- #
 #                                 Oculus Killer                                #
