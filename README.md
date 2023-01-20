@@ -6,12 +6,13 @@ An gui application to manage your oculus quest 2
 # To do:
 - [x] General
 - [ ] Performance
-    - [ ] Style UI
+    - [x] Style UI
     - [ ] cpu level
     - [ ] gpu level
     - [ ] texture res
     - [ ] ffr
 - [ ] Recording
+    - [x] UI
     - [ ] capture size
     - [ ] presets
     - [ ] fps
@@ -22,6 +23,7 @@ An gui application to manage your oculus quest 2
 - [ ] Settings
     - [ ] adb selector
     - [ ] remote adb
+- [ ] Remove adb.exe from repo
 
 # Contributing
 Please make an issue/pr if you want to see anything added or changed. Feel free to make my code better, I'm new to python.
