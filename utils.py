@@ -1,7 +1,24 @@
 import os
+import customtkinter
 from ppadb.client import Client as AdbClient
-from customtkinter import filedialog
 from vars import *
+
+adb_connected = False
+
+class Warning(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+        
+        self.geometry("200x100")
+        self.title("Oculus manager - No adb devices")
+        self.lbl = customtkinter.CTkLabel(self, text="No adb devices found", font=customtkinter.CTkFont(size=18))
+        self.lbl.pack(padx=10, pady=10, fill="both", expand=True)
+
+        self.btn = customtkinter.CTkButton(self, text="Ok", command=self.btn_action)
+        self.btn.pack(padx=10, pady=10)
+    
+    def btn_action(self):
+        quit()
 
 # ---------------------------------------------------------------------------- #
 #                                      adb                                     #
@@ -9,21 +26,39 @@ from vars import *
 if not debug:
     os.system(".\\adb.exe start-server")
     client = AdbClient(host="127.0.0.1", port=5037)
-    device = client.device("1WMHHB63D52024") # TODO change this to be dynamic
+    devices = client.devices()
+    if len(devices) == 0:
+        warning = Warning()
+        warning.mainloop()
+    else:
+        device = client.devices()[0]
+        adb_connected = True
+
 
 # ---------------------------------------------------------------------------- #
 #                                     other                                    #
 # ---------------------------------------------------------------------------- #
 def install_apk():
-    file = filedialog.askopenfilename()
+    file = customtkinter.filedialog.askopenfilename()
     if vars.debug:
         print(file)
     else:
         device.install(file)
 
-def set_brightness(value):
-    if not debug:
-        device.shell("settings put system screen_brightness " + str(int(value)))
+class Brightness:
+    def __init__(self):
+        pass
+
+    def set(value):
+        if not debug:
+            device.shell("settings put system screen_brightness " + str(int(value)))
+
+    def get():
+        if not debug:
+            var: str = device.shell("settings get system screen_brightness")
+            return var.strip()
+        else:
+            return 255
 
 class RefreshRate:
     def __init__(self):
@@ -40,15 +75,19 @@ class RefreshRate:
         if not debug:
             device.shell("setprop debug.oculus.refreshRate " + value.replace("Hz", ""))
 
-def set_cpu(value):
-    print(f"setprop debug.oculus.cpuLevel {value}")
-    if not debug:
-        device.shell(f"setprop debug.oculus.cpuLevel {value}")
+class PLevel:
+    def __init__(self):
+        pass
 
-def set_gpu(value):
-    print(f"setprop debug.oculus.gpuLevel {value}")
-    if not debug:
-        device.shell(f"setprop debug.oculus.gpuLevel {value}")
+    def cpu(value):
+        print(f"setprop debug.oculus.cpuLevel {value}")
+        if not debug:
+            device.shell(f"setprop debug.oculus.cpuLevel {value}")
+
+    def gpu(value):
+        print(f"setprop debug.oculus.gpuLevel {value}")
+        if not debug:
+            device.shell(f"setprop debug.oculus.gpuLevel {value}")
 
 tex_w = 1440
 tex_h = 1584
@@ -115,8 +154,64 @@ class FFR:
 # ---------------------------------------------------------------------------- #
 #                                     Video                                    #
 # ---------------------------------------------------------------------------- #
+# Capture size
+cs_w = 1024
+cs_h = 1024
+def cs_width(eh):
+    switch={
+        "640x480": 640,
+        "1280x720": 1280,
+        "1920x1080": 1920,
+        "1024x1024 (default)": 1024,
+        "1600x1600": 1600
+    }
+    return switch.get(eh)
+
+def cs_height(eh):
+    switch={
+        "640x480": 480,
+        "1280x720": 720,
+        "1920x1080": 1080,
+        "1024x1024 (default)": 1024,
+        "1600x1600": 1600
+    }
+    return switch.get(eh)
+
 def set_cs(value):
-    print(value)
+    cs_w = cs_width(value)
+    cs_h = cs_height(value)
+    if not debug:
+        device.shell(f"setprop debug.oculus.capture.width {tex_w}")
+        device.shell(f"setprop debug.oculus.capture.height {tex_h}")
+
+# fps
+def fps(eh):
+    switch={
+        "24fps": 24,
+        "30fps": 30,
+        "60fps": 60
+    }
+    return switch.get(eh)
+
+def set_fps(value):
+    new_fps = fps(value)
+    if not debug:
+        device.shell(f"setprop debug.oculus.capture.fps {new_fps}")
+
+# bitrate
+def bitrate(eh):
+    switch={
+        "5mbps": 5000000,
+        "10mbps": 10000000,
+        "15mbps": 15000000,
+        "20mbps": 20000000
+    }
+    return switch.get(eh)
+
+def set_bitrate(value):
+    new_bitrate = bitrate(value)
+    if not debug:
+        device.shell(f"setprop debug.oculus.capture.bitrate {new_bitrate}")
 
 # ---------------------------------------------------------------------------- #
 #                                    Battery                                   #
@@ -145,19 +240,8 @@ class Battery:
 
     def get_hmd():
         if not debug:
-            var = os.popen("adb shell \"dumpsys CompanionService | grep Battery\"").read().strip() # TODO: Change to use python adb
-            # var: str = device.shell("dumpsys OVRRemoteService | grep Battery")
-            var = var.strip().split(":")[1].strip()
-            hmd_bat = var
+            var: str = device.shell("dumpsys CompanionService | grep Battery")
+            hmd_bat = var.strip().split(":")[1].strip()
             return hmd_bat
         else:
             return str(var_hmd_bat)
-
-# ---------------------------------------------------------------------------- #
-#                                 Oculus Killer                                #
-# ---------------------------------------------------------------------------- #
-def install_killer_v2(): # TODO: Do stuff
-    print("Install oculus killer v2")
-
-def install_killer(): # TODO: Do stuff
-    print("Install oculus killer")

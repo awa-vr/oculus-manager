@@ -5,23 +5,26 @@ An gui application to manage your oculus quest 2
 
 # To do:
 - [x] General
-- [ ] Performance
+- [x] Performance
     - [x] Style UI
-    - [ ] cpu level
-    - [ ] gpu level
-    - [ ] texture res
-    - [ ] ffr
+    - [x] cpu level
+    - [x] gpu level
+    - [x] texture res
+    - [x] ffr
+    - [ ] dynamic ffr
 - [ ] Recording
     - [x] UI
-    - [ ] capture size
+    - [x] capture size
     - [ ] presets
-    - [ ] fps
-    - [ ] bitrate
-- [ ] Misc
-    - [ ] install apk
-    - [ ] install [oculus killer](https://github.com/LibreQuest/OculusKiller)
+    - [x] fps
+    - [x] bitrate
+- [x] Misc
+    - [x] install apk
+    - [x] install [oculus killer v2](https://github.com/LibreQuest/OculusKiller)
+    - [ ] Pause gardian
+    - [ ] Chromatic aberration
+    - [ ] Experimental features
 - [ ] Settings
-    - [ ] adb selector
     - [ ] remote adb
 - [ ] Remove adb.exe from repo
 
@@ -31,11 +34,13 @@ Please make an issue/pr if you want to see anything added or changed. Feel free 
 quest adb commands can be found [here](https://smartglasseshub.com/quest-2-adb-commands/)
 
 # Development
-Install `customtkinter` and `pure-python-adb`
+Install `customtkinter`, `pure-python-adb` and `requests`
 
 `pip install customtkinter`
 
 `pip install pure-python-adb`
+
+`pip install requests`
 
 ## Make exe
 0. Install pyinstaller:

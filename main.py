@@ -3,23 +3,10 @@ import customtkinter
 import os
 import vars
 import utils
+import requests
 
 customtkinter.set_appearance_mode("system")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
-
-# ---------------------------------------------------------------------------- #
-#                                   Functions                                  #
-# ---------------------------------------------------------------------------- #
-def prox():
-    pass
-#     print("switch toggled, current value:", prox_var.get())
-#     if not vars.debug:
-#         if prox_var.get() == "on":
-#             utils.device.shell("am broadcast -a com.oculus.vrpowermanager.automation_disable")
-#         else:
-#             utils.device.shell("am broadcast -a com.oculus.vrpowermanager.prox_close")
-
-
 
 def set_theme(choice):
     customtkinter.set_appearance_mode(choice)
@@ -45,6 +32,8 @@ class App(customtkinter.CTk):
         self.settings_tab = self.tabview.add("Settings")
 
         self.my_battery = utils.Battery
+        self.my_brightness = utils.Brightness
+        self.my_p_level = utils.PLevel
 
         self.general()
         self.performance()
@@ -58,9 +47,10 @@ class App(customtkinter.CTk):
     # ---------------------------------------------------------------------------- #
     def general(self):
         # Brightness
-        brightness_lbl = customtkinter.CTkLabel(self.general_tab, text="Brightness:")
-        brightness_slider = customtkinter.CTkSlider(self.general_tab, from_=0, to=255, command=utils.set_brightness)
-        brightness_lbl.pack(side="top", anchor="w")
+        self.brightness_lbl = customtkinter.CTkLabel(self.general_tab, text="Brightness:")
+        brightness_slider = customtkinter.CTkSlider(self.general_tab, from_=0, to=255, command=self.my_brightness.set)
+        brightness_slider.set(int(self.my_brightness.get()))
+        self.brightness_lbl.pack(side="top", anchor="w")
         brightness_slider.pack(side="top", anchor="w", padx=20)
 
         # Battery bars
@@ -98,7 +88,7 @@ class App(customtkinter.CTk):
         # Proximity sensor
         prox_lbl = customtkinter.CTkLabel(self.general_tab, text="Proximity sensor:")
         self.prox_var = customtkinter.StringVar(value="on")
-        prox_switch = customtkinter.CTkSwitch(self.general_tab, text="Proximity sensor", command=prox, variable=self.prox_var, onvalue="on", offvalue="off")
+        prox_switch = customtkinter.CTkSwitch(self.general_tab, text="Proximity sensor", command=self.prox, variable=self.prox_var, onvalue="on", offvalue="off")
         prox_lbl.pack(side="top", anchor="w", pady=(10, 0))
         prox_switch.pack(side="top", anchor="w", padx=20)
 
@@ -109,8 +99,8 @@ class App(customtkinter.CTk):
         cpu_lbl = customtkinter.CTkLabel(self.performance_tab, text="cpu level")
         gpu_lbl = customtkinter.CTkLabel(self.performance_tab, text="gpu level")
 
-        cpu_button = customtkinter.CTkSegmentedButton(self.performance_tab, values=["0", "1", "2", "3", "4"], command=utils.set_cpu)
-        gpu_button = customtkinter.CTkSegmentedButton(self.performance_tab, values=["0", "1", "2", "3", "4"], command=utils.set_gpu)
+        cpu_button = customtkinter.CTkSegmentedButton(self.performance_tab, values=["0", "1", "2", "3", "4"], command=self.my_p_level.cpu)
+        gpu_button = customtkinter.CTkSegmentedButton(self.performance_tab, values=["0", "1", "2", "3", "4"], command=self.my_p_level.gpu)
         cpu_lbl.pack(side="top", anchor="w")
         cpu_button.pack(side="top", anchor="w", padx=10)
         gpu_lbl.pack(side="top", anchor="w", pady=(10, 0))
@@ -143,14 +133,14 @@ class App(customtkinter.CTk):
 
         # fps
         fps_lbl = customtkinter.CTkLabel(self.recording_tab, text="FPS:")
-        fps_cb = customtkinter.CTkComboBox(self.recording_tab, values=["24fps", "30fps", "60fps"])
+        fps_cb = customtkinter.CTkComboBox(self.recording_tab, values=["24fps", "30fps", "60fps"], command=utils.set_fps)
         fps_lbl.pack(side="top", anchor="w", pady=(10, 0))
         fps_cb.pack(side="top", anchor="w", padx=10)
 
 
         # Bitrate
         bitrate_lbl = customtkinter.CTkLabel(self.recording_tab, text="Bitrate:")
-        bitrate_cb = customtkinter.CTkComboBox(self.recording_tab, values=["5mpbs", "10mpbs", "15mpbs", "20mpbs"])
+        bitrate_cb = customtkinter.CTkComboBox(self.recording_tab, values=["5mbps", "10mbps", "15mbps", "20mbps"], command=utils.set_bitrate)
         bitrate_lbl.pack(side="top", anchor="w", pady=(10, 0))
         bitrate_cb.pack(side="top", anchor="w", padx=10)
 
@@ -161,12 +151,13 @@ class App(customtkinter.CTk):
         apk_install_btn = customtkinter.CTkButton(self.misc_tab, text="Choose apk to install", command=utils.install_apk)
         apk_install_btn.pack()
 
-        # TODO: Oculus killer (https://github.com/LibreQuest/OculusKiller)
-        killer_v2_btn = customtkinter.CTkButton(self.misc_tab, text="Install Oculus Killer v2", command=utils.install_killer_v2, fg_color="yellow", text_color="black")
-        killer_v2_btn.pack(pady=(10,0))
-
-        killer_btn = customtkinter.CTkButton(self.misc_tab, text="Install Oculus killer", command=utils.install_killer, fg_color="yellow", text_color="black")
-        killer_btn.pack(pady=(10,0))
+        self.kill_var = customtkinter.StringVar(value="off")
+        if self.get_killer():
+            self.kill_var.set(value="on")
+        else:
+            self.kill_var.set(value="off")
+        killer_switch = customtkinter.CTkSwitch(self.misc_tab, text="Enable Oculus Killer v2 (unstable)", command=self.install_killer, variable=self.kill_var, onvalue="on", offvalue="off")
+        killer_switch.pack(pady=(10,0))
 
     # ---------------------------------------------------------------------------- #
     #                                   Settings                                   #
@@ -179,7 +170,12 @@ class App(customtkinter.CTk):
         love_lbl = customtkinter.CTkLabel(self.settings_tab, text="Made with 💖", font=my_font)
         love_lbl.pack(side="bottom", anchor="s")
 
+    # ---------------------------------------------------------------------------- #
+    #                                    Refresh                                   #
+    # ---------------------------------------------------------------------------- #
     def refresh(self):
+        self.brightness_lbl.configure(text="Brightness: " + str(round((int(self.my_brightness.get()) / 255 * 100))) + "%")
+
         l_bat = self.my_battery.get_l()
         r_bat = self.my_battery.get_r()
         hmd_bat = self.my_battery.get_hmd()
@@ -208,10 +204,36 @@ class App(customtkinter.CTk):
 
         self.after(5000, self.refresh)
 
+    def prox(self):
+        print("switch toggled, current value:", self.prox_var.get())
+        if not vars.debug:
+            if self.prox_var.get() == "on":
+                utils.device.shell("am broadcast -a com.oculus.vrpowermanager.automation_disable")
+            else:
+                utils.device.shell("am broadcast -a com.oculus.vrpowermanager.prox_close")
+
+    def install_killer(self):
+        current_user = os.getlogin()
+        if self.kill_var.get() == "on":
+            if not os.path.exists('C:/Program Files/Oculus/Support/oculus-dash/dash/bin/version.dll'):
+                print(os.path.exists(f"C:/Users/{current_user}/Downloads/version.dll"))
+                if not os.path.exists(f"C:/Users/{current_user}/Downloads/version.dll"):
+                    url = 'https://cdn.discordapp.com/attachments/1062101939246088233/1062104363465711716/version.dll' # TODO: change this when stable version is out
+                    file = requests.get(url)
+                    open(f'C:/Users/{current_user}/Downloads/version.dll', 'wb').write(file.content)
+                os.system("Powershell Start ./killer.bat -Verb Runas")
+        elif self.kill_var.get() == "off":
+            if os.path.exists('C:/Program Files/Oculus/Support/oculus-dash/dash/bin/version.dll'):
+                os.remove('C:/Program Files/Oculus/Support/oculus-dash/dash/bin/version.dll')
+
+    def get_killer(self):
+        return os.path.exists("C:\\Program Files\\Oculus\\Support\\oculus-dash\\dash\\bin\\version.dll")
+
 # ---------------------------------------------------------------------------- #
 #                                     Loop                                     #
 # ---------------------------------------------------------------------------- #
 if __name__ == "__main__":
-    app = App()
-    app.refresh()
-    app.mainloop()
+    if utils.adb_connected or vars.debug:
+        app = App()
+        app.refresh()
+        app.mainloop()

@@ -1,0 +1,1 @@
+move "C:\Users\%USERNAME%\Downloads\version.dll" "C:\Program Files\Oculus\Support\oculus-dash\dash\bin\"
