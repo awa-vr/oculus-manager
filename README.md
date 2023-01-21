@@ -5,7 +5,7 @@ An gui application to manage your oculus quest 2
 
 # To do:
 - [x] General
-- [x] Performance
+- [ ] Performance
     - [x] Style UI
     - [x] cpu level
     - [x] gpu level
@@ -18,7 +18,7 @@ An gui application to manage your oculus quest 2
     - [ ] presets
     - [x] fps
     - [x] bitrate
-- [x] Misc
+- [ ] Misc
     - [x] install apk
     - [x] install [oculus killer v2](https://github.com/LibreQuest/OculusKiller)
     - [ ] Pause gardian
