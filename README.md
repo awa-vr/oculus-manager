@@ -48,4 +48,4 @@ Install `customtkinter`, `pure-python-adb` and `requests`
 1. Get location of customtkinter:
 `pip show customtkinter`
 2. Run pyinstaller:
-`pyinstaller --noconfirm --onedir --windowed --add-data "<CustomTkinter Location>/customtkinter;customtkinter/"  "./main.py"`
+`pyinstaller --noconfirm --onefile --windowed --add-data "<CustomTkinter Location>/customtkinter;customtkinter/"  "./main.py"`
