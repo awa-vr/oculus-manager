@@ -36,11 +36,7 @@ quest adb commands can be found [here](https://smartglasseshub.com/quest-2-adb-c
 # Development
 Install `customtkinter`, `pure-python-adb` and `requests`
 
-`pip install customtkinter`
-
-`pip install pure-python-adb`
-
-`pip install requests`
+`pip install -r requirements.txt`
 
 ## Make exe
 0. Install pyinstaller:
