@@ -148,16 +148,26 @@ class App(customtkinter.CTk):
     #                                     Misc                                     #
     # ---------------------------------------------------------------------------- #
     def misc(self):
+        apk_install_lbl = customtkinter.CTkLabel(self.misc_tab, text="Install apk:")
         apk_install_btn = customtkinter.CTkButton(self.misc_tab, text="Choose apk to install", command=utils.install_apk)
-        apk_install_btn.pack()
+        apk_install_lbl.pack(side="top", anchor="w")
+        apk_install_btn.pack(side="top", anchor="w", padx=10)
 
         self.kill_var = customtkinter.StringVar(value="off")
         if self.get_killer():
             self.kill_var.set(value="on")
         else:
             self.kill_var.set(value="off")
+        killer_lbl = customtkinter.CTkLabel(self.misc_tab, text="Oculus killer v2:")
         killer_switch = customtkinter.CTkSwitch(self.misc_tab, text="Enable Oculus Killer v2 (unstable)", command=self.install_killer, variable=self.kill_var, onvalue="on", offvalue="off")
-        killer_switch.pack(pady=(10,0))
+        killer_lbl.pack(side="top", anchor="w", pady=(10, 0))
+        killer_switch.pack(side="top", anchor="w", padx=10)
+
+        self.guard_var = customtkinter.StringVar(value="on")
+        guard_lbl = customtkinter.CTkLabel(self.misc_tab, text="Guardian:")
+        guard_switch = customtkinter.CTkSwitch(self.misc_tab, text="Enable guardian", command=self.toggle_guard, variable=self.guard_var, onvalue="on", offvalue="off")
+        guard_lbl.pack(side="top", anchor="w", pady=(10, 0))
+        guard_switch.pack(side="top", anchor="w", padx=10)
 
     # ---------------------------------------------------------------------------- #
     #                                   Settings                                   #
@@ -228,6 +238,12 @@ class App(customtkinter.CTk):
 
     def get_killer(self):
         return os.path.exists("C:\\Program Files\\Oculus\\Support\\oculus-dash\\dash\\bin\\version.dll")
+
+    def toggle_guard(self):
+        if self.guard_var.get() == "on":
+            utils.device.shell("setprop debug.oculus.guardian_pause 1")
+        elif self.guard_var.get() == "off":
+            utils.device.shell("setprop debug.oculus.guardian_pause 0")
 
 # ---------------------------------------------------------------------------- #
 #                                     Loop                                     #
