@@ -26,7 +26,7 @@ An gui application to manage your oculus quest 2
     - [ ] Experimental features
 - [ ] Settings
     - [ ] remote adb
-- [ ] Remove adb.exe from repo
+- [x] Remove adb.exe from repo
 
 # Contributing
 Please make an issue/pr if you want to see anything added or changed. Feel free to make my code better, I'm new to python.
@@ -34,7 +34,7 @@ Please make an issue/pr if you want to see anything added or changed. Feel free 
 quest adb commands can be found [here](https://smartglasseshub.com/quest-2-adb-commands/)
 
 # Development
-Install `customtkinter`, `pure-python-adb` and `requests`
+Install the required dependencies
 
 `pip install -r requirements.txt`
 

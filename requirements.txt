@@ -1,3 +1,4 @@
 customtkinter==5.0.4
 pure-python-adb==0.3.0.dev0
 requests==2.28.2
+appdirs==1.4.4 
