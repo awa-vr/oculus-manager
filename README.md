@@ -22,7 +22,7 @@ An gui application to manage your oculus quest 2
     - [x] install apk
     - [x] install [oculus killer v2](https://github.com/LibreQuest/OculusKiller)
     - [x] Pause gardian
-    - [ ] Chromatic aberration
+    - [x] Chromatic aberration
     - [ ] Experimental features
 - [ ] Settings
     - [ ] remote adb

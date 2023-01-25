@@ -169,6 +169,12 @@ class App(customtkinter.CTk):
         guard_lbl.pack(side="top", anchor="w", pady=(10, 0))
         guard_switch.pack(side="top", anchor="w", padx=10)
 
+        self.chroma_var = customtkinter.StringVar(value="on")
+        chroma_lbl = customtkinter.CTkLabel(self.misc_tab, text="Chromatic aberration:")
+        chroma_switch = customtkinter.CTkSwitch(self.misc_tab, text="Enable Chromatic aberration", command=self.toggle_chroma, variable=self.chroma_var, onvalue="on", offvalue="off")
+        chroma_lbl.pack(side="top", anchor="w", pady=(10, 0))
+        chroma_switch.pack(side="top", anchor="w", padx=10)
+
     # ---------------------------------------------------------------------------- #
     #                                   Settings                                   #
     # ---------------------------------------------------------------------------- #
@@ -244,6 +250,12 @@ class App(customtkinter.CTk):
             utils.device.shell("setprop debug.oculus.guardian_pause 1")
         elif self.guard_var.get() == "off":
             utils.device.shell("setprop debug.oculus.guardian_pause 0")
+
+    def toggle_chroma(self):
+        if self.guard_var.get() == "on":
+            utils.device.shell("setprop debug.oculus.forceChroma 1")
+        elif self.guard_var.get() == "off":
+            utils.device.shell("setprop debug.oculus.forceChroma 0")
 
 # ---------------------------------------------------------------------------- #
 #                                     Loop                                     #
