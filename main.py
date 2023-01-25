@@ -265,15 +265,15 @@ class App(customtkinter.CTk):
             utils.device.shell("setprop debug.oculus.guardian_pause 0")
 
     def toggle_chroma(self):
-        if self.guard_var.get() == "on":
+        if self.chroma_var.get() == "on":
             utils.device.shell("setprop debug.oculus.forceChroma 1")
-        elif self.guard_var.get() == "off":
+        elif self.chroma_var.get() == "off":
             utils.device.shell("setprop debug.oculus.forceChroma 0")
 
     def toggle_experimental(self):
-        if self.guard_var.get() == "on":
+        if self.experimental_var.get() == "on":
             utils.device.shell("setprop debug.oculus.experimentalEnabled 1")
-        elif self.guard_var.get() == "off":
+        elif self.experimental_var.get() == "off":
             utils.device.shell("setprop debug.oculus.experimentalEnabled 0")
 
     def toggle_dffr(self):
