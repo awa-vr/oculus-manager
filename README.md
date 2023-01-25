@@ -28,6 +28,11 @@ An gui application to manage your oculus quest 2
     - [ ] remote adb
 - [x] Remove adb.exe from repo
 
+# Usage
+1. download `main.exe`
+2. connect your quest 2
+3. run `main.exe`
+
 # Contributing
 Please make an issue/pr if you want to see anything added or changed. Feel free to make my code better, I'm new to python.
 
