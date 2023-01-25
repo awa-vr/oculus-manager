@@ -1,9 +1,9 @@
-# oculus-manager
+# Oculus Manager
 An gui application to manage your oculus quest 2
 
 ⚠️ WIP, stuff will break and not everything is working
 
-# To do:
+## To do:
 - [x] General
 - [x] Performance
     - [x] Style UI
@@ -25,20 +25,20 @@ An gui application to manage your oculus quest 2
     - [x] Chromatic aberration
     - [x] Experimental features
 - [ ] Settings
-    - [ ] remote adb
+    - [ ] remote adb (probably for v1.1)
 - [x] Remove adb.exe from repo
 
-# Usage
+## Usage
 1. download `main.exe`
 2. connect your quest 2
 3. run `main.exe`
 
-# Contributing
+## Contributing
 Please make an issue/pr if you want to see anything added or changed. Feel free to make my code better, I'm new to python.
 
 quest adb commands can be found [here](https://smartglasseshub.com/quest-2-adb-commands/)
 
-# Development
+## Development
 Install the required dependencies
 
 `pip install -r requirements.txt`
