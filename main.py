@@ -120,6 +120,13 @@ class App(customtkinter.CTk):
         ffr_lbl.pack(side="top", anchor="w", pady=(10, 0))
         ffr_cb.pack(side="top", anchor="w", padx=10)
 
+        # dynamic ffr
+        self.dffr_var = customtkinter.StringVar(value="on")
+        dffr_lbl = customtkinter.CTkLabel(self.performance_tab, text="Dynamic FFR:")
+        dffr_switch = customtkinter.CTkSwitch(self.performance_tab, text="Enable dynamic FFR", command=self.toggle_dffr, variable=self.dffr_var, onvalue="on", offvalue="off")
+        dffr_lbl.pack(side="top", anchor="w", pady=(10, 0))
+        dffr_switch.pack(side="top", anchor="w", padx=10)
+
     # ---------------------------------------------------------------------------- #
     #                                   Recording                                  #
     # ---------------------------------------------------------------------------- #
@@ -268,6 +275,12 @@ class App(customtkinter.CTk):
             utils.device.shell("setprop debug.oculus.experimentalEnabled 1")
         elif self.guard_var.get() == "off":
             utils.device.shell("setprop debug.oculus.experimentalEnabled 0")
+
+    def toggle_dffr(self):
+        if self.dffr_var.get() == "on":
+            utils.device.shell("setprop debug.oculus.foveation.dynamic 1")
+        elif self.dffr_var.get() == "off":
+            utils.device.shell("setprop debug.oculus.foveation.dynamic 0")
 
 # ---------------------------------------------------------------------------- #
 #                                     Loop                                     #

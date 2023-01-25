@@ -5,13 +5,13 @@ An gui application to manage your oculus quest 2
 
 # To do:
 - [x] General
-- [ ] Performance
+- [x] Performance
     - [x] Style UI
     - [x] cpu level
     - [x] gpu level
     - [x] texture res
     - [x] ffr
-    - [ ] dynamic ffr
+    - [x] dynamic ffr
 - [ ] Recording
     - [x] UI
     - [x] capture size
