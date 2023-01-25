@@ -175,6 +175,12 @@ class App(customtkinter.CTk):
         chroma_lbl.pack(side="top", anchor="w", pady=(10, 0))
         chroma_switch.pack(side="top", anchor="w", padx=10)
 
+        self.experimental_var = customtkinter.StringVar(value="on")
+        experimental_lbl = customtkinter.CTkLabel(self.misc_tab, text="experimental features:")
+        experimental_switch = customtkinter.CTkSwitch(self.misc_tab, text="Enable experimental features", command=self.toggle_experimental, variable=self.experimental_var, onvalue="on", offvalue="off")
+        experimental_lbl.pack(side="top", anchor="w", pady=(10, 0))
+        experimental_switch.pack(side="top", anchor="w", padx=10)
+
     # ---------------------------------------------------------------------------- #
     #                                   Settings                                   #
     # ---------------------------------------------------------------------------- #
@@ -256,6 +262,12 @@ class App(customtkinter.CTk):
             utils.device.shell("setprop debug.oculus.forceChroma 1")
         elif self.guard_var.get() == "off":
             utils.device.shell("setprop debug.oculus.forceChroma 0")
+
+    def toggle_experimental(self):
+        if self.guard_var.get() == "on":
+            utils.device.shell("setprop debug.oculus.experimentalEnabled 1")
+        elif self.guard_var.get() == "off":
+            utils.device.shell("setprop debug.oculus.experimentalEnabled 0")
 
 # ---------------------------------------------------------------------------- #
 #                                     Loop                                     #
