@@ -43,7 +43,7 @@ Install the required dependencies
 
 `pip install -r requirements.txt`
 
-## Make exe
+### Make exe
 0. Install pyinstaller:
 `pip install pyinstaller`
 1. Get location of customtkinter:
