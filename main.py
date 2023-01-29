@@ -217,19 +217,25 @@ class App(customtkinter.CTk):
         self.hmd_bat_lbl.configure(text="Headset battery: " + hmd_bat + "%")
 
         if int(hmd_bat) <= 20 and int(hmd_bat) > 15:
-            self.hmd_bat_pro.configure(progress_color="yellow")
+            self.hmd_bat_pro.configure(progress_color="#B3B526")
         elif int(hmd_bat) <= 15:
-            self.hmd_bat_pro.configure(progress_color="red")
+            self.hmd_bat_pro.configure(progress_color="#750E00")
+        else:
+            self.hmd_bat_pro.configure(progress_color="#1F6AA5")
 
         if int(l_bat) <= 20 and int(l_bat) > 15:
-            self.l_bat_pro.configure(progress_color="yellow")
+            self.l_bat_pro.configure(progress_color="#B3B526")
         elif int(l_bat) <= 15:
-            self.l_bat_pro.configure(progress_color="red")
+            self.l_bat_pro.configure(progress_color="#750E00")
+        else:
+            self.l_bat_pro.configure(progress_color="#1F6AA5")
 
         if int(r_bat) <= 20 and int(r_bat) > 15:
-            self.r_bat_pro.configure(progress_color="yellow")
+            self.r_bat_pro.configure(progress_color="#B3B526")
         elif int(r_bat) <= 15:
-            self.r_bat_pro.configure(progress_color="red")
+            self.r_bat_pro.configure(progress_color="#750E00")
+        else:
+            self.r_bat_pro.configure(progress_color="#1F6AA5")
 
         self.after(5000, self.refresh)
 
