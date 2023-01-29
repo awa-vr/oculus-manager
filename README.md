@@ -1,5 +1,5 @@
 # Oculus Manager
-An gui application to manage your oculus quest 2
+A gui application to manage your oculus quest 2
 
 ⚠️ WIP, stuff will break and not everything is working
 
