@@ -20,6 +20,7 @@ A gui application to manage your oculus quest 2
     - [x] bitrate
 - [x] Misc
     - [x] install apk
+    - [ ] install [oculus killer v1](https://github.com/LibreQuest/OculusKiller)
     - [x] install [oculus killer v2](https://github.com/LibreQuest/OculusKiller)
     - [x] Pause gardian
     - [x] Chromatic aberration
@@ -27,6 +28,7 @@ A gui application to manage your oculus quest 2
 - [ ] Settings
     - [ ] remote adb (probably for v1.1)
 - [x] Remove adb.exe from repo
+- [ ] Custom icon/logo
 
 ## Usage
 1. download `main.exe`

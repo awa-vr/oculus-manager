@@ -4,6 +4,19 @@ import os
 import vars
 import utils
 import requests
+import sys
+
+sys.path.insert(1, './src/')
+import battery
+import brightness
+import install
+import plevel
+import refresh
+import texture
+import ffr
+import capture
+import fps
+import bitrate
 
 customtkinter.set_appearance_mode("system")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -31,9 +44,9 @@ class App(customtkinter.CTk):
         self.misc_tab = self.tabview.add("Misc")
         self.settings_tab = self.tabview.add("Settings")
 
-        self.my_battery = utils.Battery
-        self.my_brightness = utils.Brightness
-        self.my_p_level = utils.PLevel
+        self.my_battery = battery.Battery
+        self.my_brightness = brightness.Brightness
+        self.my_p_level = plevel.PLevel
 
         self.general()
         self.performance()
@@ -79,8 +92,8 @@ class App(customtkinter.CTk):
 
         # Refresh rate
         refresh_lbl = customtkinter.CTkLabel(self.general_tab, text="Refresh rate:")
-        refresh_button = customtkinter.CTkSegmentedButton(self.general_tab, values=["60Hz", "72Hz", "90Hz", "120Hz"], command=utils.RefreshRate.set)
-        refresh_button.set(utils.RefreshRate.get())
+        refresh_button = customtkinter.CTkSegmentedButton(self.general_tab, values=["60Hz", "72Hz", "90Hz", "120Hz"], command=refresh.RefreshRate.set)
+        refresh_button.set(refresh.RefreshRate.get())
 
         refresh_lbl.pack(side="top", anchor="w", pady=(10, 0))
         refresh_button.pack(side="top", anchor="w", padx=10)
@@ -108,12 +121,12 @@ class App(customtkinter.CTk):
 
         # texture values from sidequest
         tex_size_lbl = customtkinter.CTkLabel(self.performance_tab, text="Texture size:")
-        tex_size_cb = customtkinter.CTkComboBox(self.performance_tab, values=["default", "512", "768", "1024", "1280", "1440", "1536", "2048", "2560", "3072"], command=utils.set_texture)
+        tex_size_cb = customtkinter.CTkComboBox(self.performance_tab, values=["default", "512", "768", "1024", "1280", "1440", "1536", "2048", "2560", "3072"], command=texture.set_texture)
         tex_size_lbl.pack(side="top", anchor="w", pady=(10, 0))
         tex_size_cb.pack(side="top", anchor="w", padx=10)
 
         # ffr
-        my_ffr = utils.FFR
+        my_ffr = ffr.FFR
 
         ffr_lbl = customtkinter.CTkLabel(self.performance_tab, text="FFR:")
         ffr_cb = customtkinter.CTkComboBox(self.performance_tab, values=["off", "low", "medium", "high", "max"], command=my_ffr.set)
@@ -133,21 +146,21 @@ class App(customtkinter.CTk):
     def recording(self):
         # capture size
         cs_lbl = customtkinter.CTkLabel(self.recording_tab, text="Capture size")
-        cs_cb = customtkinter.CTkComboBox(self.recording_tab, values=["640x480", "1280x720", "1920x1080", "1024x1024 (default)", "1600x1600"], width=170, command=utils.set_cs)
+        cs_cb = customtkinter.CTkComboBox(self.recording_tab, values=["640x480", "1280x720", "1920x1080", "1024x1024 (default)", "1600x1600"], width=170, command=capture.set_cs)
         cs_cb.set("1024x1024 (default)")
         cs_lbl.pack(side="top", anchor="w")
         cs_cb.pack(side="top", anchor="w", padx=10)
 
         # fps
         fps_lbl = customtkinter.CTkLabel(self.recording_tab, text="FPS:")
-        fps_cb = customtkinter.CTkComboBox(self.recording_tab, values=["24fps", "30fps", "60fps"], command=utils.set_fps)
+        fps_cb = customtkinter.CTkComboBox(self.recording_tab, values=["24fps", "30fps", "60fps"], command=fps.set_fps)
         fps_lbl.pack(side="top", anchor="w", pady=(10, 0))
         fps_cb.pack(side="top", anchor="w", padx=10)
 
 
         # Bitrate
         bitrate_lbl = customtkinter.CTkLabel(self.recording_tab, text="Bitrate:")
-        bitrate_cb = customtkinter.CTkComboBox(self.recording_tab, values=["5mbps", "10mbps", "15mbps", "20mbps"], command=utils.set_bitrate)
+        bitrate_cb = customtkinter.CTkComboBox(self.recording_tab, values=["5mbps", "10mbps", "15mbps", "20mbps"], command=bitrate.set_bitrate)
         bitrate_lbl.pack(side="top", anchor="w", pady=(10, 0))
         bitrate_cb.pack(side="top", anchor="w", padx=10)
 
@@ -156,7 +169,7 @@ class App(customtkinter.CTk):
     # ---------------------------------------------------------------------------- #
     def misc(self):
         apk_install_lbl = customtkinter.CTkLabel(self.misc_tab, text="Install apk:")
-        apk_install_btn = customtkinter.CTkButton(self.misc_tab, text="Choose apk to install", command=utils.install_apk)
+        apk_install_btn = customtkinter.CTkButton(self.misc_tab, text="Choose apk to install", command=install.install_apk)
         apk_install_lbl.pack(side="top", anchor="w")
         apk_install_btn.pack(side="top", anchor="w", padx=10)
 
