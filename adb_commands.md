@@ -83,3 +83,22 @@
         - 2560: `2816`
         - 3072: `3380`
 
+# Proximity sensor
+- Enable: `adb shell am broadcast -a com.oculus.vrpowermanager.automation_disable`
+- Disable: `adb shell am broadcast -a com.oculus.vrpowermanager.prox_close`
+
+# Guardian
+- Enable: `adb shell setprop debug.oculus.guardian_pause 1`
+- Disable: `adb shell setprop debug.oculus.guardian_pause 0`
+
+# Chroma
+- Enable: `adb shell setprop debug.oculus.forceChroma 1`
+- Disable: `adb shell setprop debug.oculus.forceChroma 0`
+
+# Experimental features
+- Enable: `adb shell setprop debug.oculus.experimentalEnabled 1`
+- Disable: `adb shell setprop debug.oculus.experimentalEnabled 0`
+
+# Dynamic FFR
+- Enable: `adb shell setprop debug.oculus.foveation.dynamic 1`
+- Disable: `adb shell setprop debug.oculus.foveation.dynamic 0`
