@@ -257,9 +257,9 @@ class App(customtkinter.CTk):
         print("switch toggled, current value:", self.prox_var.get())
         if not vars.debug:
             if self.prox_var.get() == "on":
-                utils.device.shell("am broadcast -a com.oculus.vrpowermanager.automation_disable")
+                device.shell("am broadcast -a com.oculus.vrpowermanager.automation_disable")
             else:
-                utils.device.shell("am broadcast -a com.oculus.vrpowermanager.prox_close")
+                device.shell("am broadcast -a com.oculus.vrpowermanager.prox_close")
 
     def install_killer(self):
         current_user = os.getlogin()
@@ -280,27 +280,27 @@ class App(customtkinter.CTk):
 
     def toggle_guard(self):
         if self.guard_var.get() == "on":
-            utils.device.shell("setprop debug.oculus.guardian_pause 1")
+            device.shell("setprop debug.oculus.guardian_pause 1")
         elif self.guard_var.get() == "off":
-            utils.device.shell("setprop debug.oculus.guardian_pause 0")
+            device.shell("setprop debug.oculus.guardian_pause 0")
 
     def toggle_chroma(self):
         if self.chroma_var.get() == "on":
-            utils.device.shell("setprop debug.oculus.forceChroma 1")
+            device.shell("setprop debug.oculus.forceChroma 1")
         elif self.chroma_var.get() == "off":
-            utils.device.shell("setprop debug.oculus.forceChroma 0")
+            device.shell("setprop debug.oculus.forceChroma 0")
 
     def toggle_experimental(self):
         if self.experimental_var.get() == "on":
-            utils.device.shell("setprop debug.oculus.experimentalEnabled 1")
+            device.shell("setprop debug.oculus.experimentalEnabled 1")
         elif self.experimental_var.get() == "off":
-            utils.device.shell("setprop debug.oculus.experimentalEnabled 0")
+            device.shell("setprop debug.oculus.experimentalEnabled 0")
 
     def toggle_dffr(self):
         if self.dffr_var.get() == "on":
-            utils.device.shell("setprop debug.oculus.foveation.dynamic 1")
+            device.shell("setprop debug.oculus.foveation.dynamic 1")
         elif self.dffr_var.get() == "off":
-            utils.device.shell("setprop debug.oculus.foveation.dynamic 0")
+            device.shell("setprop debug.oculus.foveation.dynamic 0")
 
 # ---------------------------------------------------------------------------- #
 #                                     Loop                                     #
