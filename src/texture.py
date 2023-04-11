@@ -35,9 +35,9 @@ def tex_height(eh):
 def set_texture(choice):
     tex_w = tex_width(choice)
     tex_h = tex_height(choice)
-    logging.debug(f"setprop debug.oculus.textureWidth {tex_w}")
-    logging.debug(f"setprop debug.oculus.textureHeight {tex_h}")
-    # logging.debug(f"settings put system font_scale 0.85 && settings put system font_scale 1.0") # idk if this is needed
+    logger.debug(f"setprop debug.oculus.textureWidth {tex_w}")
+    logger.debug(f"setprop debug.oculus.textureHeight {tex_h}")
+    # logger.debug(f"settings put system font_scale 0.85 && settings put system font_scale 1.0") # idk if this is needed
     if not debug:
         device.shell(f"setprop debug.oculus.textureWidth {tex_w}")
         device.shell(f"setprop debug.oculus.textureHeight {tex_h}")

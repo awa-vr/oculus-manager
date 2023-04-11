@@ -15,6 +15,6 @@ class FFR:
 
     def set(choice):
         eh = switch_ffr(choice)
-        logging.debug(f"debug.oculus.foveation.level {eh}")
+        logger.debug(f"debug.oculus.foveation.level {eh}")
         if not debug:
             device.shell(f"debug.oculus.foveation.level {eh}")

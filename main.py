@@ -2,11 +2,12 @@ import customtkinter
 # import json
 import os
 import vars
-import utils
 import requests
 import sys
 
 sys.path.insert(1, './src/')
+from common import *
+import device
 import battery
 import brightness
 import install
@@ -305,7 +306,9 @@ class App(customtkinter.CTk):
 #                                     Loop                                     #
 # ---------------------------------------------------------------------------- #
 if __name__ == "__main__":
-    if utils.adb_connected or vars.debug:
+    if device.adb_connected or vars.debug:
+        if vars.debug:
+            logger.info("running in debug mode")
         app = App()
         app.refresh()
         app.mainloop()
