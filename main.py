@@ -265,7 +265,7 @@ class App(customtkinter.CTk):
         current_user = os.getlogin()
         if self.kill_var.get() == "on":
             if not os.path.exists('C:/Program Files/Oculus/Support/oculus-dash/dash/bin/version.dll'):
-                print(os.path.exists(f"C:/Users/{current_user}/Downloads/version.dll"))
+                logger.debug(os.path.exists(f"C:/Users/{current_user}/Downloads/version.dll"))
                 if not os.path.exists(f"C:/Users/{current_user}/Downloads/version.dll"):
                     url = 'https://cdn.discordapp.com/attachments/1062101939246088233/1062104363465711716/version.dll' # TODO: change this when stable version is out
                     file = requests.get(url)
