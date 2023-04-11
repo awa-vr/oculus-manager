@@ -180,7 +180,7 @@ class App(customtkinter.CTk):
         else:
             self.kill_var.set(value="off")
         killer_lbl = customtkinter.CTkLabel(self.misc_tab, text="Oculus killer v2:")
-        killer_switch = customtkinter.CTkSwitch(self.misc_tab, text="Enable Oculus Killer v2 (unstable)", command=self.install_killer, variable=self.kill_var, onvalue="on", offvalue="off")
+        killer_switch = customtkinter.CTkSwitch(self.misc_tab, text="Enable Oculus Killer v2 (unstable)", command=self.install_killer_v2, variable=self.kill_var, onvalue="on", offvalue="off")
         killer_lbl.pack(side="top", anchor="w", pady=(10, 0))
         killer_switch.pack(side="top", anchor="w", padx=10)
 
@@ -254,14 +254,14 @@ class App(customtkinter.CTk):
         self.after(5000, self.refresh)
 
     def prox(self):
-        print("switch toggled, current value:", self.prox_var.get())
+        logger.debug("Prox:" + self.prox_var.get())
         if not vars.debug:
             if self.prox_var.get() == "on":
                 device.shell("am broadcast -a com.oculus.vrpowermanager.automation_disable")
             else:
                 device.shell("am broadcast -a com.oculus.vrpowermanager.prox_close")
 
-    def install_killer(self):
+    def install_killer_v2(self):
         current_user = os.getlogin()
         if self.kill_var.get() == "on":
             if not os.path.exists('C:/Program Files/Oculus/Support/oculus-dash/dash/bin/version.dll'):
@@ -279,24 +279,28 @@ class App(customtkinter.CTk):
         return os.path.exists("C:\\Program Files\\Oculus\\Support\\oculus-dash\\dash\\bin\\version.dll")
 
     def toggle_guard(self):
+        logger.debug("Gaurdian: " + self.guard_var.get())
         if self.guard_var.get() == "on":
             device.shell("setprop debug.oculus.guardian_pause 1")
         elif self.guard_var.get() == "off":
             device.shell("setprop debug.oculus.guardian_pause 0")
 
     def toggle_chroma(self):
+        logger.debug("Chroma: " + self.chroma_var.get())
         if self.chroma_var.get() == "on":
             device.shell("setprop debug.oculus.forceChroma 1")
         elif self.chroma_var.get() == "off":
             device.shell("setprop debug.oculus.forceChroma 0")
 
     def toggle_experimental(self):
+        logger.debug("Experimental: " + self.experimental_var.get())
         if self.experimental_var.get() == "on":
             device.shell("setprop debug.oculus.experimentalEnabled 1")
         elif self.experimental_var.get() == "off":
             device.shell("setprop debug.oculus.experimentalEnabled 0")
 
     def toggle_dffr(self):
+        logger.debug("DFFR: " + self.dffr_var.get())
         if self.dffr_var.get() == "on":
             device.shell("setprop debug.oculus.foveation.dynamic 1")
         elif self.dffr_var.get() == "off":
