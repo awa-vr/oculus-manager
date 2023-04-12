@@ -1,6 +1,6 @@
 __pycache__/
 build/
 dist/
-main.spec
+*.spec
 
 .vscode/
