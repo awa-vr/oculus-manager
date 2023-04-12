@@ -17,8 +17,8 @@ class Warning(customtkinter.CTk):
         super().__init__()
         
         self.geometry("200x100")
-        self.title("Oculus manager - No adb devices")
-        self.lbl = customtkinter.CTkLabel(self, text="No adb devices found", font=customtkinter.CTkFont(size=18))
+        self.title("Oculus manager - Error")
+        self.lbl = customtkinter.CTkLabel(self, text="Error", font=customtkinter.CTkFont(size=18))
         self.lbl.pack(padx=10, pady=10, fill="both", expand=True)
 
         self.btn = customtkinter.CTkButton(self, text="Ok", command=self.btn_action)
@@ -63,10 +63,12 @@ if not debug:
         sys.exit()
 
     if len(devices) == 0:
-        logger.info("No adb devices found")
+        logger.warning("No adb devices found")
         warning = Warning()
+        warning.title("Oculus manager - No adb devices found")
+        warning.lbl.configure(text="No adb devices found")
         warning.mainloop()
     else:
-        logger.debug("Devices:" + devices)
-        device = client.devices()[0]
+        logger.debug("Devices:" + str(devices))
+        device = client.devices()[0] # Might be nice if user could specify which device if multiple are connected
         adb_connected = True
