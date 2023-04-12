@@ -26,6 +26,7 @@ A gui application to manage your oculus quest 2
     - [x] Chromatic aberration
     - [x] Experimental features
 - [ ] Settings
+    - [ ] Save settings
     - [ ] remote adb (probably for v1.1)
 - [x] Remove adb.exe from repo
 - [ ] Custom icon/logo
@@ -51,4 +52,4 @@ Install the required dependencies
 1. Get location of customtkinter:
 `pip show customtkinter`
 2. Run pyinstaller:
-`pyinstaller --noconfirm --onefile --windowed --add-data "<CustomTkinter Location>/customtkinter;customtkinter/"  "./main.py"`
+`pyinstaller --noconfirm --onefile --windowed --add-data "<CustomTkinter Location>/customtkinter;customtkinter/" --paths "./src" "./main.py"`
