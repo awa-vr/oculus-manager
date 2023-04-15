@@ -39,6 +39,6 @@ def set_texture(choice):
     logger.debug(f"setprop debug.oculus.textureHeight {tex_h}")
     # logger.debug(f"settings put system font_scale 0.85 && settings put system font_scale 1.0") # idk if this is needed
     if not debug:
-        device.shell(f"setprop debug.oculus.textureWidth {tex_w}")
-        device.shell(f"setprop debug.oculus.textureHeight {tex_h}")
-        # device.shell(f"settings put system font_scale 0.85 && settings put system font_scale 1.0") # idk if this is needed
+        adbdevice.device.shell(f"setprop debug.oculus.textureWidth {tex_w}")
+        adbdevice.device.shell(f"setprop debug.oculus.textureHeight {tex_h}")
+        # adbdevice.device.shell(f"settings put system font_scale 0.85 && settings put system font_scale 1.0") # idk if this is needed

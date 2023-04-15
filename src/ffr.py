@@ -17,4 +17,4 @@ class FFR:
         eh = switch_ffr(choice)
         logger.debug(f"debug.oculus.foveation.level {eh}")
         if not debug:
-            device.shell(f"debug.oculus.foveation.level {eh}")
+            adbdevice.device.shell(f"debug.oculus.foveation.level {eh}")

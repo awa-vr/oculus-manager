@@ -1,3 +1,3 @@
 from vars import *
 from log import *
-import device
+import adbdevice

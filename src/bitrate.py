@@ -12,4 +12,4 @@ def bitrate(eh):
 def set_bitrate(value):
     new_bitrate = bitrate(value)
     if not debug:
-        device.shell(f"setprop debug.oculus.capture.bitrate {new_bitrate}")
+        adbdevice.device.shell(f"setprop debug.oculus.capture.bitrate {new_bitrate}")

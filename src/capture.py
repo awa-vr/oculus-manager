@@ -26,6 +26,6 @@ def set_cs(value):
     cs_w = cs_width(value)
     cs_h = cs_height(value)
     if not debug:
-        device.shell(f"setprop debug.oculus.capture.width {cs_w}")
-        device.shell(f"setprop debug.oculus.capture.height {cs_h}")
+        adbdevice.device.shell(f"setprop debug.oculus.capture.width {cs_w}")
+        adbdevice.device.shell(f"setprop debug.oculus.capture.height {cs_h}")
 

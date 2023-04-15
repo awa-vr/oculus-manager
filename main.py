@@ -7,7 +7,7 @@ import sys
 
 sys.path.insert(1, './src/')
 from common import *
-import device
+import adbdevice
 import battery
 import brightness
 import install
@@ -257,9 +257,9 @@ class App(customtkinter.CTk):
         logger.debug("Prox:" + self.prox_var.get())
         if not vars.debug:
             if self.prox_var.get() == "on":
-                device.shell("am broadcast -a com.oculus.vrpowermanager.automation_disable")
+                adbdevice.device.shell("am broadcast -a com.oculus.vrpowermanager.automation_disable")
             else:
-                device.shell("am broadcast -a com.oculus.vrpowermanager.prox_close")
+                adbdevice.device.shell("am broadcast -a com.oculus.vrpowermanager.prox_close")
 
     def install_killer_v2(self):
         current_user = os.getlogin()
@@ -281,36 +281,36 @@ class App(customtkinter.CTk):
     def toggle_guard(self):
         logger.debug("Gaurdian: " + self.guard_var.get())
         if self.guard_var.get() == "on":
-            device.shell("setprop debug.oculus.guardian_pause 1")
+            adbdevice.device.shell("setprop debug.oculus.guardian_pause 1")
         elif self.guard_var.get() == "off":
-            device.shell("setprop debug.oculus.guardian_pause 0")
+            adbdevice.device.shell("setprop debug.oculus.guardian_pause 0")
 
     def toggle_chroma(self):
         logger.debug("Chroma: " + self.chroma_var.get())
         if self.chroma_var.get() == "on":
-            device.shell("setprop debug.oculus.forceChroma 1")
+            adbdevice.device.shell("setprop debug.oculus.forceChroma 1")
         elif self.chroma_var.get() == "off":
-            device.shell("setprop debug.oculus.forceChroma 0")
+            adbdevice.device.shell("setprop debug.oculus.forceChroma 0")
 
     def toggle_experimental(self):
         logger.debug("Experimental: " + self.experimental_var.get())
         if self.experimental_var.get() == "on":
-            device.shell("setprop debug.oculus.experimentalEnabled 1")
+            adbdevice.device.shell("setprop debug.oculus.experimentalEnabled 1")
         elif self.experimental_var.get() == "off":
-            device.shell("setprop debug.oculus.experimentalEnabled 0")
+            adbdevice.device.shell("setprop debug.oculus.experimentalEnabled 0")
 
     def toggle_dffr(self):
         logger.debug("DFFR: " + self.dffr_var.get())
         if self.dffr_var.get() == "on":
-            device.shell("setprop debug.oculus.foveation.dynamic 1")
+            adbdevice.device.shell("setprop debug.oculus.foveation.dynamic 1")
         elif self.dffr_var.get() == "off":
-            device.shell("setprop debug.oculus.foveation.dynamic 0")
+            adbdevice.device.shell("setprop debug.oculus.foveation.dynamic 0")
 
 # ---------------------------------------------------------------------------- #
 #                                     Loop                                     #
 # ---------------------------------------------------------------------------- #
 if __name__ == "__main__":
-    if device.adb_connected or vars.debug:
+    if adbdevice.adb_connected or vars.debug:
         if vars.debug:
             logger.info("running in debug mode")
         app = App()
