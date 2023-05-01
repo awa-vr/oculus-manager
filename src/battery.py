@@ -10,7 +10,7 @@ class Battery:
             var: str = adbdevice.device.shell("dumpsys OVRRemoteService | grep Battery")
             var = var.strip().split(",")
             try:
-                lbat = var[8].split(":")[1].strip()[:-1]
+                lbat = var[10].split(":")[1].strip()[:-1]
             except:
                 logger.critical("Connected device is not a quest, now exiting")
                 warning = adbdevice.Warning()
@@ -19,6 +19,7 @@ class Battery:
                 warning.lbl.configure(text="Connected device is not a quest")
                 warning.mainloop()
                 sys.exit()
+            logger.debug(var)
             logger.debug("lbat: " + lbat)
             return lbat
         else:
